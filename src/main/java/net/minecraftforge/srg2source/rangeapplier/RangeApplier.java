@@ -53,7 +53,7 @@ public class RangeApplier extends ConfLogger<RangeApplier>
         }*/
 
     	//Set always false
-        boolean dumpRangeMap = false;//options.has("dumpRangeMap");
+        //boolean dumpRangeMap = false;//options.has("dumpRangeMap");
 
         // read range map, spit, and return
 
