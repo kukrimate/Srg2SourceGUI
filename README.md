@@ -1,18 +1,14 @@
-Srg2Source v3.0
+Srg2SourceGUI
+===============
 
-A tool for renaming symbols (classes, methods, fields, parameters, and variables) in Java source code using .srg mappings.
+A GUI For srg2src for ease of use.
 
-For porting, Minecraft, CraftBukkit, mods, plugins, etc.
+I make it for porting craftbukkit to mcp.
 
 ## Usage
 
-    cd python
-    python remap-craftbukkit.py --help
+Compile using gradle build if you not have gradle installed run gradlew build.
 
-The `mapbranch.py` script is used to automatically update https://github.com/MinecraftForge/MCPBukkit
+## License
 
-## See also
-
-Inspired by the Frans-Willem's binary remapper ApplySrg, originally from https://github.com/Frans-Willem/SrgTools (updated version at https://github.com/agaricusb/SrgTools)
-
-More remapping tools and generated .srgs: https://github.com/agaricusb/MinecraftRemapping
+Licensed under the BSD license becouseof the original srg2src is also BSD.
