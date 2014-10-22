@@ -37,30 +37,32 @@ public class RangeExtractor extends ConfLogger<RangeExtractor>
     private final Set<File> libs = new HashSet<File>();
     private InputSupplier src;
 
-    public static void main(String[] args) throws IOException
+    public static boolean extract(File srcDir, File outFile) throws IOException
     {
-        if (args.length != 3)
-        {
-            System.out.println("Usage: RangeExtract [SourceDir] [LibDir] [OutFile]");
-            System.exit(1);
-        }
-
-        File src = new File(args[0]);
-
         RangeExtractor extractor = new RangeExtractor();
-        extractor.setSrcRoot(new File(args[0]));
+        extractor.setSrcRoot(srcDir);
 
-        if (args[1].equals("none") || args[1].isEmpty())
-            extractor.addLibs(src);
-        else
-            extractor.addLibs(args[1]);
-
-        boolean worked = extractor.generateRangeMap(new File(args[2]));
+        extractor.addLibs(srcDir);
+        
+        boolean worked = extractor.generateRangeMap(outFile);
 
         System.out.println("Srg2source batch mode finished - now exiting " + (worked ? 0 : 1));
-        System.exit(worked ? 0 : 1);
+        return worked;
     }
+    
+    public static boolean extract(File srcDir, File libDir, File outFile) throws IOException
+    {
+        RangeExtractor extractor = new RangeExtractor();
+        extractor.setSrcRoot(srcDir);
 
+        extractor.addLibs(libDir);
+
+        boolean worked = extractor.generateRangeMap(outFile);
+
+        System.out.println("Srg2source batch mode finished - now exiting " + (worked ? 0 : 1));
+        return worked;
+    }
+    
     /**
      * Generates the rangemap.
      * @param out The file where the RangeMap will be put out.
