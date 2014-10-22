@@ -17,8 +17,9 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeSet;
 
-import joptsimple.OptionParser;
-import joptsimple.OptionSet;
+//Unneeded import
+/*import joptsimple.OptionParser;
+import joptsimple.OptionSet;*/
 import net.minecraftforge.srg2source.rangeapplier.RangeMap.RangeEntry;
 import net.minecraftforge.srg2source.util.Util;
 import net.minecraftforge.srg2source.util.io.ConfLogger;
@@ -32,11 +33,11 @@ import com.google.common.io.ByteStreams;
 
 public class RangeApplier extends ConfLogger<RangeApplier>
 {
-    @SuppressWarnings({ "unchecked", "resource" })
-    public static void main(String[] args) throws IOException
+    @SuppressWarnings({ "resource" })
+    public static void apply(File srcRootDir, File srcRangeMap, List<File> srgs, File outputDir) throws IOException
     {
         // configure parser
-        OptionParser parser = new OptionParser();
+        /*OptionParser parser = new OptionParser();
         {
             parser.acceptsAll(Arrays.asList("h", "help")).isForHelp();
             parser.accepts("srcRoot", "Source root directory to rename").withRequiredArg().ofType(File.class).isRequired(); // var=srcRoot
@@ -49,22 +50,15 @@ public class RangeApplier extends ConfLogger<RangeApplier>
             //parser.accepts("no-dumpRenameMap", "Disable dumping symbol rename map before renaming"); // var="dumpRenameMap", default=True
             parser.accepts("dumpRangeMap", "Enable dumping the ordered range map and quit"); // var=dumpRangeMap, default=False
             parser.accepts("outDir", "The output folder for editted classes.").withRequiredArg().ofType(File.class); // default null
-        }
+        }*/
 
-        OptionSet options = parser.parse(args);
-
-        if (options.has("help"))
-        {
-            parser.printHelpOn(System.out);
-            System.exit(0);
-        }
-
-        //boolean dumpRenameMap = !options.has("no-dumpRenameMap");
-        boolean dumpRangeMap = options.has("dumpRangeMap");
+    	//Set always false
+        boolean dumpRangeMap = false;//options.has("dumpRangeMap");
 
         // read range map, spit, and return
 
-        if (dumpRangeMap)
+        //mateass: unneeded code
+        /*if (dumpRangeMap)
         {
             RangeMap ranges = new RangeMap().read((File) options.valueOf("srcRangeMap"));
             for (String key : ranges.keySet())
@@ -75,12 +69,13 @@ public class RangeApplier extends ConfLogger<RangeApplier>
                 }
             }
             return;
-        }
+        }*/
 
         // setup RangeApplier.
-        RangeApplier app = new RangeApplier().readSrg((List<File>) options.valuesOf("srgFiles"));
+        RangeApplier app = new RangeApplier().readSrg(srgs);
 
-        // read parameter remaps
+        //mateass: unneeded code
+        /*// read parameter remaps
         if (options.has("mcpConfDir") && options.hasArgument("mcpConfDir"))
         {
             File conf = (File) options.valueOf("mcpConfDir");
@@ -102,16 +97,16 @@ public class RangeApplier extends ConfLogger<RangeApplier>
         if (options.has("lvRangeMap") && options.hasArgument("lvRangeMap"))
         {
             app.readLvRangeMap((File) options.valueOf("lvRangeMap"));
-        }
+        }*/
 
         //options.valuesOf("srgFiles");
-        FolderSupplier srcRoot = new FolderSupplier((File) options.valueOf("srcRoot"));
+        FolderSupplier srcRoot = new FolderSupplier(srcRootDir);
         // output supplier..
         OutputSupplier outDir = (OutputSupplier) srcRoot;
-        if (options.has("outDir"))
-            outDir = new FolderSupplier((File) options.valueOf("outDir"));
         
-        app.remapSources(srcRoot, outDir, (File) options.valueOf("srcRangeMap"), false);
+        outDir = new FolderSupplier(outputDir);
+        
+        app.remapSources(srcRoot, outDir, srcRangeMap, false);
         
         srcRoot.close();
         outDir.close();
