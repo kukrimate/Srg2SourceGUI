@@ -11,7 +11,11 @@ import net.minecraftforge.srg2source.rangeapplier.RangeApplier;
 public class Caller 
 {
 	public static void callRangeExtractor(File srcDir, File libDir, File outDir) throws Exception {
-		boolean isSuccessfull = RangeExtractor.extract(srcDir, libDir,new File(outDir + File.separator + "rangemap"));
+		if (new File(outDir + File.separator + "rangemap.rng").isFile()) {
+			System.out.println("test");
+			return;
+		}
+		boolean isSuccessfull = RangeExtractor.extract(srcDir, libDir,new File(outDir + File.separator + "rangemap.rng"));
 		if (isSuccessfull) {
 			return;
 		} else {
@@ -24,7 +28,7 @@ public class Caller
 		for (File f : srgDir.listFiles()) {
 			srgs.add(f);
 		}
-		RangeApplier.apply(srcDir, new File(outDir + File.separator + "ranegemap"), srgs, new File(outDir + File.separator + "output"));
+		RangeApplier.apply(srcDir, new File(outDir + File.separator + "rangemap.rng"), srgs, new File(outDir + File.separator + "output"));
 	}
 	
 	public static void callCodeFixer() throws Exception {

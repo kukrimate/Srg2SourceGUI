@@ -439,8 +439,9 @@ public class SymbolRangeEmitter
         {
             logFile.println(tab + s);
         }
-        if (s.contains("||"))
-            System.exit(1);
+        //mateass: Removed exiting
+        /*if (s.contains("||"))
+            System.exit(1);*/
     }
 
     public void emitThrowRange(Name exc, ITypeBinding type)

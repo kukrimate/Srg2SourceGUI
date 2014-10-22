@@ -30,6 +30,7 @@ public class MainFrame extends JFrame
 		this.setSize(new Dimension(800, 600));
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		buildGui(this);
 		this.setVisible(true);
 	}
